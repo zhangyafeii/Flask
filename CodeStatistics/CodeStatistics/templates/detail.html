@@ -1,0 +1,104 @@
+{% extends 'home.html' %}
+{% block js %}
+    <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/oldie.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+{% endblock %}
+{% block right_content %}
+    <ol class="breadcrumb">
+        <li><a href="/home">Home</a></li>
+        <li><a href="/user_list">用户列表</a></li>
+        <li class="active">{{ record_list[0].nickname }}</li>
+    </ol>
+    {% if not empty %}
+        <div id="container" style="min-width:400px;height:400px"></div>
+        <script>
+            // JS 代码
+            var chart = Highcharts.chart('container', {
+                chart: {
+                    type: 'line'
+                }
+                ,
+                title: {
+                    text: '代码统计折线图'
+                },
+                subtitle: {
+                    text: '永远不要嘲笑一个有梦想的人'
+                },
+                xAxis: {
+                    categories: {{ ctime|tojson }},
+                    title:{
+                        text: '日期',
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: '行数(行)'
+                    }
+                }
+                ,
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            // 开启数据标签
+                            enabled: true
+                        }
+                        ,
+                        // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                        enableMouseTracking: false
+                    }
+                }
+                ,
+                series: [{
+                    name: '{{ record_list[0].nickname }}',
+                    data: {{ lines }}
+                },]
+            });
+
+        </script>
+        <button class="btn btn-primary" style="float: right;" id="view">查看详细</button>
+    {% else %}
+        <span style="color: red;">该用户还未上传任何代码</span>
+    {% endif %}
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">代码统计</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>上传时间</td>
+                            <td>代码行数</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in record_list %}
+                            <tr>
+                                <td>{{ loop.index0 }}</td>
+                                <td>{{ row.ctime }}</td>
+                                <td>{{ row.line }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#view').click(function () {
+            $('.modal').modal('show');
+        })
+    </script>
+{% endblock %}

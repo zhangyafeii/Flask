@@ -1,0 +1,23 @@
+{% extends 'home.html' %}
+
+
+{% block right_content %}
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('main.home') }}">数据可视化系统</a></li>
+        <li><a href="{{ url_for('main.file_list') }}">文件列表</a></li>
+        <li><a href="{{ url_for('main.data_list', table_name=table_name) }}">{{ table_name }}</a></li>
+        <li class="active">数据详情页</li>
+        <ol>
+        <div class="row" style="margin-top: 30px;">
+            <form class="form-horizontal">
+                {% for key in data.index %}
+                <div class="form-group">
+                    <label for="content" class="col-sm-2 control-label">{{ key }}</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="content" placeholder="无" value="{{ data[key] }}" readonly>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+        </div>
+{% endblock %}

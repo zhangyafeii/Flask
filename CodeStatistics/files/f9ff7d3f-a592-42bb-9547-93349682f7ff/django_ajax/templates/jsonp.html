@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="content"></div>
+<input type="button" value="发送1" onclick="submitJsonp();">
+<input type="button" value="发送2" onclick="submitJsonp1();">
+<input type="button" value="发送3" onclick="submitJsonp2();">
+
+<script src="/static/js/jquery-3.1.1.js"></script>
+<script>
+    function submitJsonp() {
+        $.ajax({
+            url:'/ajax3.html',
+            type:'POST',
+            data:{'nid':2},
+            success:function (arg) {
+                $('#content').html(arg);
+            }
+        })
+    }
+
+    function submitJsonp1() {
+        var tag = document.createElement('script');
+        tag.src = 'http://www.jxntv.cn/data/jmd-jxtv2.html?callback=list&_=1454376870403';
+        $(document.head).append(tag);
+        document.head.removeChild(tag);
+    }
+    function list(arg) {
+        console.log(arg);
+    }
+
+    function submitJsonp2() {
+        $.ajax({
+            url:'http://www.jxntv.cn/data/jmd-jxtv2.html?callback=list&_=1454376870403',
+            type:'GET',
+            dataType:'jsonp',
+            jsonp:'callback',
+            jsonpCallback:'list',
+        })
+    }
+</script>
+</body>
+</html>

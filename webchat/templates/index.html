@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h1>欢迎使用web微信
+    <h3>{{ init_user_dict.User.NickName }}{{ init_user_dict.User.UserName }}</h3>
+</h1>
+<div style="width: 600px;float: right;margin-right: 100px;">
+    <form class="form-horizontal" method="post" action="/send_msg">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">发送者</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputEmail3" name="fromUser" placeholder="请输入发送者ID">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">接收者</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputPassword3" name="toUser" placeholder="请输出接收者ID">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">内容</label>
+            <div class="col-sm-9">
+                <textarea type="" class="form-control" name="content" placeholder="内容"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-success">发送</button>
+            </div>
+        </div>
+    </form>
+</div>
+<h3>最近联系人</h3>
+<ul>
+    {% for item in init_user_dict.ContactList %}
+    <li>{{ item.NickName }}</li>
+    {% endfor %}
+    <li><a href="/get_all_contact" target="_blank">获取所有联系人</a></li>
+</ul>
+<h3>最近公众号</h3>
+{% for item in init_user_dict.MPSubscribeMsgList %}
+<div>
+    <h3>{{ item.NickName }}</h3>
+    <ul>
+        {% for msg in item.MPArticleList %}
+        <li><a href="{{ msg.Url }}">{{ msg.Title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        checkMsg();
+    })
+    function checkMsg() {
+        $.ajax({
+            url:'/check_msg',
+            method:'GET',
+            dataType:'json',
+            success:function (arg) {
+                console.log(arg.code);
+                if (arg.status) {
+                    $.each(arg.content, function (i,val) {
+                        console.log(val.Content);
+                    })
+                }
+                checkMsg();
+            }
+            })
+    }
+
+</script>
+</body>
+</html>

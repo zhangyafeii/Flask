@@ -1,0 +1,90 @@
+{% extends 'home.html' %}
+{% block css %}
+    #datatable {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 12px;
+    }
+    td,th {
+    border: 1px solid #ccc;
+    padding: 4px 20px;
+    }
+{% endblock %}
+{% block js %}
+    <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/data.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+{% endblock %}
+{% block right_content %}
+    <ol class="breadcrumb">
+        <li><a href="/home">Home</a></li>
+        <li>用户列表</li>
+    </ol>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <p>数据表格</p>
+    <table id="datatable" style="display: none">
+        <thead>
+        <tr>
+            <th>用户</th>
+            <th>代码总行数</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+        <tr>
+            <th>{{ row.nickname }}</th>
+            <td>{{ row.line }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        var chart = Highcharts.chart('container', {
+            data: {
+                table: 'datatable'
+            },
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '用户上传代码统计柱状图'
+                // 该功能依赖 data.js 模块，详见https://www.hcharts.cn/docs/data-modules
+            },
+            yAxis: {
+                allowDecimals: false,
+                title: {
+                    text: '行',
+                    rotation: 0
+                }
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + ' 行' + '<br/>' + this.point.name.toLowerCase();
+                }
+            }
+        });
+    </script>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>用户名</td>
+            <td>昵称</td>
+            <td>操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <td>{{ row['id'] }}</td>
+                <td>{{ row['nickname'] }}</td>
+                <td>{{ row['line'] }}</td>
+                <td><a href="/detail/{{ row['id'] }}">查看</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

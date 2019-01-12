@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block js %}{% endblock %}
+{% block body %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="cursor: pointer">数据可视化系统</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="item" href="#">消息<i style="margin-left: 3px;" class="fa fa-bell-o"
+                                                      aria-hidden="true"></i>&nbsp;<span class="badge"
+                                                                                         style="background-color: red">4</span></a>
+                    </li>
+                    <li><a class="item" href="#">通知<i style="margin-left: 3px;" class="fa fa-envelope-o"
+                                                      aria-hidden="true"></i>&nbsp;<span class="badge"
+                                                                                         style="background-color:forestgreen">4</span></a>
+                    </li>
+                    <li><a class="item" href="#">任务<i style="margin-left: 3px;" class="fa fa-commenting-o"
+                                                      aria-hidden="true"></i>&nbsp;<span class="badge"
+                                                                                         style="background-color: forestgreen">4</span></a>
+                    </li>
+                    <li><a href="https://v3.bootcss.com/examples/dashboard/#"></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                           role="button">{{ session['user']['nickname'] }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">个人信息</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                </ul>
+            </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    {{ active_path('/file_list') }}
+                    <a href="/file_list">文件列表</a>
+                    </li>
+                    <li>
+                        <a>数据统计</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                {% block right_content %}
+                    <h2 class="page-header">欢迎来到数据可视化系统</h2>
+                    <div id="dynamic">
+                        {% include 'plot/动态交互图.html' %}
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

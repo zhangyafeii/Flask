@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <form class="form-horizontal" method="post" action="/send_msg">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-3 control-label">发送者</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputEmail3" name="fromUser">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">接受者</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputPassword3" name="toUser">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-3 control-label">内容</label>
+            <div class="col-sm-9">
+                <textarea type="" class="form-control" name="content"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-success">发送</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

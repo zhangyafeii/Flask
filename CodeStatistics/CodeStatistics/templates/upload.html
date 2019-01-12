@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+
+{% block right_content %}
+    <ol class="breadcrumb">
+        <li><a href="/home">Home</a></li>
+        <li class="active">代码上传</li>
+    </ol>
+    <h4 style="color: #28a4c9;font-weight: bold">代码上传</h4>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" id="exampleInputFile" name="code">
+        </div>
+        <div class="col-xs-1">
+            <input type="submit" class="btn btn-primary" style="margin-left: -10px;" value="上传">
+        </div>
+        <div class="col-xs-4" style="padding-left: 0;">
+            {% if error %}
+                <div style="padding: 6px;" class="alert-danger">
+                            <span style="padding: 0 5px 0 5px;display: inline-block;font-size: 14px">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </span>
+                    <span id="error_msg" style="font-size: 12px;color: red;">{{ error }}</span>
+                </div>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style='background: url("static/images/background.jpg")'>
+<div style="margin-left: 50px;margin-top: 50px;">
+<img src="static/images/logo.png" alt="logo" width="20px" height="20px" style="color: #777777">
+</div>
+<div style="width: 300px;height:350px;margin: 0 auto;padding-top:20px;background-color: white">
+    <h3 id="remind" style="text-align: center;margin-top: 30px;">使用手机微信扫码登录</h3>
+<img id="avatar" style="margin-left: 50px;" width="200px" height="200px" src="https://login.weixin.qq.com/qrcode/{{ qcode }}">
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        checkLogin();
+    })
+    function checkLogin() {
+        $.ajax({
+            url:'/check_login',
+            method:'GET',
+            dataType:'json',
+            success:function (arg) {
+                console.log(arg);
+                if (arg.code == 408){
+                    checkLogin();
+                } else if (arg.code == 201){
+                    $('#avatar').attr('src',arg.avatar);
+                    $('#remind').text('请在手机端确认登录');
+                    checkLogin();
+                }else if (arg.code == 200){
+                    location.href = '/index';
+                }
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

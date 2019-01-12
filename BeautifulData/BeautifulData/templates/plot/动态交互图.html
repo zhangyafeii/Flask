@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="https://static.jianshukeji.com/highcharts/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* css 代码  */
+    </style>
+    <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/highcharts-more.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+    <script src="https://img.hcharts.cn/highcharts/themes/dark-unica.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<div id="wrapper">
+    <button id="plain">普通</button>
+    <button id="inverted">反转</button>
+    <button id="polar">极地图</button>
+</div>
+<script>
+    var chart = Highcharts.chart('container', {
+        title: {
+            text: '图表变换'
+        },
+        subtitle: {
+            text: '普通的'
+        },
+        xAxis: {
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        },
+        series: [{
+            type: 'column',
+            colorByPoint: true,
+            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+            showInLegend: false
+        }]
+    });
+    // 给 wrapper 添加点击事件
+    Highcharts.addEvent(document.getElementById('wrapper'), 'click', function (e) {
+        var target = e.target,
+            button = null;
+        if (target.tagName === 'BUTTON') { // 判断点的是否是 button
+            button = target.id;
+            switch (button) {
+                case 'plain':
+                    chart.update({
+                        chart: {
+                            inverted: false,
+                            polar: false
+                        },
+                        subtitle: {
+                            text: '普通的'
+                        }
+                    });
+                    break;
+                case 'inverted':
+                    chart.update({
+                        chart: {
+                            inverted: true,
+                            polar: false
+                        },
+                        subtitle: {
+                            text: '反转'
+                        }
+                    });
+                    break;
+                case 'polar':
+                    chart.update({
+                        chart: {
+                            inverted: false,
+                            polar: true
+                        },
+                        subtitle: {
+                            text: '极地图'
+                        }
+                    });
+                    break;
+            }
+        }
+    });
+</script>
+</body>
+</html>

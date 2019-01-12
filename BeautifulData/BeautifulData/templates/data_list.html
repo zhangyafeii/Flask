@@ -1,0 +1,41 @@
+{% extends 'home.html' %}
+
+{% block right_content %}
+    <ol class="breadcrumb">
+        <li><a href="{{ url_for('main.home') }}">数据可视化系统</a></li>
+        <li><a href="{{ url_for('main.file_list') }}">文件列表</a></li>
+        <li class="active">{{ table_name }}</li>
+    </ol>
+    <table class="table-bordered table">
+        <thead>
+        <tr style="background-color: pink">
+            <th style="color: #2aabd2; font-weight: bold">ID</th>
+            {% for col in admin_class.list_display %}
+                <th style="color: #2aabd2;font-weight: bold">{{ col }}</th>
+            {% endfor %}
+                <th style="color: #2aabd2;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for k,row in data_list.iterrows() %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('main.detail', table_name=table_name, index=k) }}">
+                    {{ k }}
+                    </a>
+                </td>
+                {% for col in admin_class.list_display %}
+                    <td>{{ row[col] }}</td>
+                {% endfor %}
+            <td><a href="{{ url_for('main.detail', table_name=table_name, index=k) }}">查看</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <ul class="pagination">
+        {% if page_obj.num_pages > 1 %}
+            {{ page_str }}
+        {% else %}
+        {% endif %}
+    </ul>
+{% endblock %}
